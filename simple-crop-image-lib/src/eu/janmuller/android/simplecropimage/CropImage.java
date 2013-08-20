@@ -119,9 +119,9 @@ public class CropImage extends MonitoredActivity {
 
             if (extras.getString(CIRCLE_CROP) != null) {
 
-        	if (Build.VERSION.SDK_INT > Build.VERSION_CODES.HONEYCOMB) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             		mImageView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-        	}
+                }
 
                 mCircleCrop = true;
                 mAspectX = 1;
