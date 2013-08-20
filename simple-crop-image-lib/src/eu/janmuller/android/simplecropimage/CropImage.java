@@ -60,6 +60,7 @@ public class CropImage extends MonitoredActivity {
 
     private static final String TAG                    = "CropImage";
     public static final  String IMAGE_PATH             = "image-path";
+    public static final  String SAVE_IMAGE_PATH        = "save-image-path";
     public static final  String SCALE                  = "scale";
     public static final  String ORIENTATION_IN_DEGREES = "orientation_in_degrees";
     public static final  String ASPECT_X               = "aspectX";
@@ -88,6 +89,7 @@ public class CropImage extends MonitoredActivity {
     private ContentResolver mContentResolver;
     private Bitmap          mBitmap;
     private String          mImagePath;
+    private String          mSaveImagePath;
 
     boolean       mWaitingToPick; // Whether we are wait the user to pick a face.
     boolean       mSaving;  // Whether the "save" button is already clicked.
@@ -129,8 +131,9 @@ public class CropImage extends MonitoredActivity {
             }
 
             mImagePath = extras.getString(IMAGE_PATH);
+            mSaveImagePath = extras.getString(SAVE_IMAGE_PATH);
 
-            mSaveUri = getImageUri(mImagePath);
+            mSaveUri = getImageUri(mSaveImagePath != null ? mSaveImagePath : mImagePath);
             mBitmap = getBitmap(mImagePath);
 
             if (extras.containsKey(ASPECT_X) && extras.get(ASPECT_X) instanceof Integer) {
@@ -434,7 +437,7 @@ public class CropImage extends MonitoredActivity {
             Bundle extras = new Bundle();
             Intent intent = new Intent(mSaveUri.toString());
             intent.putExtras(extras);
-            intent.putExtra(IMAGE_PATH, mImagePath);
+            intent.putExtra(IMAGE_PATH, mSaveImagePath != null ? mSaveImagePath : mImagePath);
             intent.putExtra(ORIENTATION_IN_DEGREES, Util.getOrientationInDegree(this));
             setResult(RESULT_OK, intent);
         } else {
